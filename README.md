@@ -1,29 +1,33 @@
-# Create T3 App
+# My Portfolio
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+This repository contains my personal portfolio website. It presents my background, skills, projects, certificates, and work experience in a clear and organized way. The goal is to provide a professional snapshot of my journey as a Computer Science student and aspiring software engineer.
 
-## What's next? How do I make an app with this?
+## About Me
+I am a fourth-year BS Computer Science student at USTP-CDO. I focus on building reliable applications, analyzing system structures, and creating optimized solutions. I value teamwork, clear communication, and problem-solving.
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+## Projects
+- **Kaboom**  
+  A scalable real-time multiplayer word game built with modern full-stack technologies.  
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+- **Barangay Complaint System**  
+  A platform for filing and tracking community complaints.  
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+- **Future Projects**  
+  Applications currently in development, including Tu Freestory and Frutas y Verduras.  
 
-## Learn More
+## Certificates
+- Certificate of Completion – RBIM (2026)  
+- Certificate of Completion – Mindanao International Container Terminal Services Inc. (2026)  
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+## Work Experience
+- RBIM Data Encoder – LGU (2026–Present)  
+- OJT Intern – Mindanao International Container Terminal Services Inc. (2026–Present)  
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+## Core Technologies
+Python, Django, Node.js, Express.js, PostgreSQL, MySQL, SQLite, JavaScript, React, Tailwind CSS, Framer, C++, Git, Linux, Bash
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+## Purpose
+This portfolio is designed to highlight my technical expertise, academic background, and professional growth. It serves as a reference for recruiters, collaborators, and peers who want to learn more about my work.
 
-## How do I deploy this?
-
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+## Live Website
+[Visit My Portfolio](#) *(insert your website link here)*
