@@ -1,0 +1,10 @@
+const fs = require('fs');
+const html = fs.readFileSync('public/home.html', 'utf8');
+const expStart = html.indexOf('Experience<span');
+const expContainer = html.lastIndexOf('e-con e-child', expStart);
+const expDiv = html.lastIndexOf('<div', expContainer);
+const eduStart = html.indexOf('Education<span');
+const eduContainer = html.lastIndexOf('e-con e-child', eduStart);
+const eduDiv = html.lastIndexOf('<div', eduContainer);
+console.log('Experience slide starts at:', expDiv);
+console.log('Education slide starts at:', eduDiv);

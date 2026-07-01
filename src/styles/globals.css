@@ -1,0 +1,13 @@
+#tech-stack {
+  width: 100vw !important;
+  max-width: 100vw !important;
+  position: relative !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  overflow: hidden !important;
+}
+
+#tech-stack .flex {
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+}

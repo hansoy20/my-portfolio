@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Me | Engineering Blueprint</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500&family=JetBrains+Mono&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #EFF3FA;
+      --ink: #1A1F2E;
+      --accent: #3B6FE8;
+      --label: #8A93A8;
+      --grid-line: #C8D2E8;
+    }
+    
+    body {
+      background-color: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 80px 40px;
+      min-height: 100vh;
+      box-sizing: border-box;
+      /* Drafting paper grid */
+      background-image: 
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 40px 40px;
+      background-position: center top;
+      background-attachment: fixed;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      position: relative;
+    }
+
+    .connectors-container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .path-line {
+      fill: none;
+      stroke: var(--accent); /* Accent color for connectors or grid line? Prompt says draw themselves. Using grid line color or accent? Let's use accent for dynamic energy, or grid line to be subtle. Let's use grid-line but slightly darker, or accent with low opacity. I'll use var(--grid-line) as requested for lines. Wait, drawing connectors usually implies electricity/accent. I'll use grid-line to stay within strict tokens, maybe accent color is only for the hero word. "use ONCE - on the hero word work" -> okay, must use grid-line color for SVG paths! */
+      stroke: var(--grid-line);
+      stroke-width: 1.5;
+      transition: stroke-dashoffset 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .card {
+      position: relative;
+      background: var(--bg);
+      border: 1px solid var(--grid-line);
+      border-radius: 4px;
+      padding: 32px;
+      z-index: 1;
+      transition: transform 0.3s ease;
+      opacity: 0;
+      transform: translateY(16px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Corner brackets via pseudo-elements */
+    .card::before, .card::after {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 2;
+    }
+
+    /* Top corners */
+    .card::before {
+      background: 
+        linear-gradient(var(--accent), var(--accent)) top left / 12px 2px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) top left / 2px 12px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) top right / 12px 2px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) top right / 2px 12px no-repeat;
+    }
+
+    /* Bottom corners */
+    .card::after {
+      background: 
+        linear-gradient(var(--accent), var(--accent)) bottom left / 12px 2px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) bottom left / 2px 12px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) bottom right / 12px 2px no-repeat,
+        linear-gradient(var(--accent), var(--accent)) bottom right / 2px 12px no-repeat;
+    }
+
+    .card:hover {
+      transform: translateY(-2px);
+    }
+
+    .card:hover::before, .card:hover::after {
+      opacity: 1;
+    }
+
+    .annotation {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      color: var(--label);
+      margin-bottom: 24px;
+      user-select: none;
+    }
+
+    /* Grid layout */
+    .card.hero { grid-column: span 5; }
+    .card.skills { grid-column: span 3; }
+    .card.terminal { grid-column: span 4; }
+    .card.hardware { grid-column: span 12; }
+    .card.pattern { grid-column: span 6; }
+    .card.ships { grid-column: span 6; }
+
+    /* Hero */
+    .hero h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 72px;
+      line-height: 1.1;
+      margin: 0 0 24px 0;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+    }
+    .hero .accent {
+      color: var(--accent);
+    }
+    .hero p {
+      font-size: 16px;
+      line-height: 1.7;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    /* Skills */
+    .skills h2 {
+      font-family: 'Inter', sans-serif;
+      font-size: 16px;
+      font-weight: 500;
+      margin: 0 0 20px 0;
+      color: var(--ink);
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      padding: 6px 12px;
+      border: 1px solid var(--grid-line);
+      border-radius: 4px;
+      color: var(--ink);
+      transition: background-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+    .tag:hover {
+      background-color: var(--ink);
+      color: var(--bg);
+    }
+
+    /* Terminal */
+    .terminal-content {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex-grow: 1;
+    }
+    .terminal-content .line {
+      display: flex;
+    }
+    .terminal-content .prompt {
+      color: var(--label);
+      margin-right: 12px;
+      user-select: none;
+    }
+
+    /* Traits */
+    .trait h3 {
+      font-size: 20px;
+      margin: 0 0 12px 0;
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+    }
+    .trait p {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.7;
+      color: var(--ink);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
+      .card::before, .card::after {
+        transition: none !important;
+      }
+      .path-line {
+        transition: none !important;
+        stroke-dasharray: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+    }
+
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto 32px auto;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid var(--ink);
+      padding-bottom: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      font-size: 14px;
+      color: var(--ink);
+      font-weight: bold;
+      letter-spacing: 0.05em;
+    }
+
+    @media (max-width: 1024px) {
+      .card.hero { grid-column: span 12; }
+      .card.skills { grid-column: span 6; }
+      .card.terminal { grid-column: span 6; }
+    }
+    
+    @media (max-width: 768px) {
+      .card { grid-column: span 12 !important; }
+      .hero h1 { font-size: 56px; }
+      body { padding: 40px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="section-header">
+    <span>Sheet: About Me</span>
+    <span>Rev: 1.0.0</span>
+  </div>
+  <div class="container" id="blueprint-container">
+    <svg class="connectors-container" id="connectors-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+    <!-- Hero Card -->
+    <div class="card hero" id="hero">
+      <div class="annotation">&gt;_ /sys/identity</div>
+      <h1>I build things that <span class="accent">work</span>.</h1>
+      <p>4th-year CS at USTP-CDO. I write code, break systems intentionally, and put them back together better.</p>
+    </div>
+
+    <!-- Skills Card -->
+    <div class="card skills" id="skills">
+      <div class="annotation">&gt;_ /sys/tools</div>
+      <h2>Tools I reach for</h2>
+      <div class="tags">
+        <span class="tag">Python</span>
+        <span class="tag">C</span>
+        <span class="tag">Java</span>
+        <span class="tag">Git</span>
+        <span class="tag">JavaScript</span>
+        <span class="tag">React</span>
+        <span class="tag">Linux</span>
+        <span class="tag">Bash</span>
+      </div>
+    </div>
+
+    <!-- Terminal Card -->
+    <div class="card terminal" id="terminal">
+      <div class="annotation">&gt;_ /sys/status</div>
+      <div class="terminal-content">
+        <div class="line"><span class="prompt">&gt;</span> git init portfolio</div>
+        <div class="line"><span class="prompt">/</span> ✓ Logic: compiled</div>
+        <div class="line"><span class="prompt">/</span> ✓ Hardwork: committed</div>
+        <div class="line"><span class="prompt">$</span> status: shipping</div>
+      </div>
+    </div>
+
+    <!-- Hardware Trait Card -->
+    <div class="card trait hardware" id="hardware">
+      <div class="annotation">&gt;_ /sys/hardware</div>
+      <h3>Hardware-first thinking</h3>
+      <p>Understanding the physical limits of memory and cycles to write code that scales gracefully from embedded devices to the cloud.</p>
+    </div>
+
+    <!-- Pattern Trait Card -->
+    <div class="card trait pattern" id="pattern">
+      <div class="annotation">&gt;_ /sys/pattern</div>
+      <h3>Pattern recognition</h3>
+      <p>Identifying recurring architectures to refactor complex, tangled systems into elegant, maintainable solutions.</p>
+    </div>
+
+    <!-- Ships Trait Card -->
+    <div class="card trait ships" id="ships">
+      <div class="annotation">&gt;_ /sys/collab</div>
+      <h3>Ships with teams</h3>
+      <p>Collaborating seamlessly across disciplines to merge diverse perspectives into unified, resilient products.</p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const cards = document.querySelectorAll('.card');
+      
+      // Stagger fade up on load
+      if (!prefersReducedMotion) {
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.classList.add('visible');
+          }, index * 80 + 100);
+        });
+      } else {
+        cards.forEach(card => card.classList.add('visible'));
+      }
+
+      const svgOverlay = document.getElementById('connectors-svg');
+      const container = document.getElementById('blueprint-container');
+
+      // Define logical connections between layout blocks
+      const connections = [
+        { from: '#hero', to: '#hardware' },
+        { from: '#skills', to: '#hardware' },
+        { from: '#terminal', to: '#hardware' },
+        { from: '#hardware', to: '#pattern' },
+        { from: '#hardware', to: '#ships' }
+      ];
+
+      function drawConnectors() {
+        svgOverlay.innerHTML = '';
+        const containerRect = container.getBoundingClientRect();
+        
+        connections.forEach(conn => {
+          const fromEl = document.querySelector(conn.from);
+          const toEl = document.querySelector(conn.to);
+          
+          if (!fromEl || !toEl) return;
+          
+          const fromRect = fromEl.getBoundingClientRect();
+          const toRect = toEl.getBoundingClientRect();
+          
+          // Calculate precise connection points
+          const startX = (fromRect.left + fromRect.width / 2) - containerRect.left;
+          const startY = fromRect.bottom - containerRect.top;
+          
+          const endX = (toRect.left + toRect.width / 2) - containerRect.left;
+          const endY = toRect.top - containerRect.top;
+          
+          // Stepped path (down, across, down)
+          const midY = startY + (endY - startY) / 2;
+          const d = `M ${startX} ${startY} L ${startX} ${midY} L ${endX} ${midY} L ${endX} ${endY}`;
+          
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute('d', d);
+          path.classList.add('path-line');
+          svgOverlay.appendChild(path);
+          
+          if (!prefersReducedMotion) {
+            const length = path.getTotalLength();
+            path.style.strokeDasharray = length;
+            path.style.strokeDashoffset = length;
+            conn.pathElement = path;
+          }
+        });
+      }
+
+      // Allow DOM layout to settle before drawing lines
+      setTimeout(drawConnectors, 50);
+
+      window.addEventListener('resize', () => {
+        drawConnectors();
+        if (!prefersReducedMotion) {
+          checkPathsVisibility();
+        }
+      });
+
+      function checkPathsVisibility() {
+        const threshold = window.innerHeight * 0.9;
+        connections.forEach(conn => {
+          if (conn.pathElement) {
+            const toEl = document.querySelector(conn.to);
+            if (toEl) {
+              const rect = toEl.getBoundingClientRect();
+              if (rect.top < threshold) {
+                // Trigger animation
+                conn.pathElement.style.strokeDashoffset = 0;
+              }
+            }
+          }
+        });
+      }
+
+      if (!prefersReducedMotion) {
+        window.addEventListener('scroll', checkPathsVisibility, { passive: true });
+        setTimeout(checkPathsVisibility, 200);
+      }
+    });
+  </script>
+</body>
+</html>
