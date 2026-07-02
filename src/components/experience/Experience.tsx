@@ -163,8 +163,11 @@ export function Experience() {
             grid-template-columns: 1fr;
           }
           #experience-section {
-            margin-top: -80px !important;
+            margin-top: -40px !important;
             padding: 32px 16px !important;
+          }
+          .exp-main-heading {
+            font-size: 40px !important;
           }
         }
 

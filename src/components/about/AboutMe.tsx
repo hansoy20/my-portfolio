@@ -27,26 +27,7 @@ export function AboutMe() {
     show5: false,
   });
 
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry?.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
 
   useEffect(() => {
     let isCancelled = false;
@@ -239,7 +220,7 @@ export function AboutMe() {
 
         /* --- Identity Card --- */
         .identity-headline {
-          font-size: 2.5rem;
+          font-size: 2rem;
           line-height: 1.1;
           letter-spacing: -0.03em;
           margin-bottom: 16px !important;
@@ -437,9 +418,14 @@ export function AboutMe() {
         }
         .about-section-header h2 {
           font-family: 'Space Grotesk', sans-serif;
-          font-size: 2.5rem;
+          font-size: 2rem;
           margin: 0;
           color: #FFFFFF;
+        }
+        @media (min-width: 768px) {
+          .about-section-header h2 {
+            font-size: 2.5rem;
+          }
         }
         .about-section-header .line {
           flex-grow: 1;

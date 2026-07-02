@@ -1,4 +1,4 @@
-import "./globals.css";
+import "./globals.purged.css";
 import "./responsive-fixes.css";
 import { type Metadata } from "next";
 import { Roboto } from "next/font/google";

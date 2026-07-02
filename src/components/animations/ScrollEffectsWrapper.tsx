@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 export function ScrollEffectsWrapper() {
   const { scrollY } = useScroll();
   const elementsRef = useRef<{
-    photo: HTMLElement | null;
+    photo: Element | null;
     words: NodeListOf<Element> | null;
     particles: NodeListOf<Element> | null;
     cards: { el: HTMLElement; top: number; height: number }[];
@@ -15,7 +15,7 @@ export function ScrollEffectsWrapper() {
   // 0. Cache DOM elements on mount and window resize
   useEffect(() => {
     const cacheElements = () => {
-      elementsRef.current.photo = document.querySelector('.hero-image') as HTMLElement;
+      elementsRef.current.photo = document.querySelector('.hero-image');
       elementsRef.current.words = document.querySelectorAll('.hero-word-img');
       elementsRef.current.particles = document.querySelectorAll('.wavo-particles-effect');
       
@@ -36,7 +36,7 @@ export function ScrollEffectsWrapper() {
     cacheElements();
     
     // Recache on resize since offsets might change
-    let resizeTimer: any;
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const handleResize = () => {
       clearTimeout(resizeTimer);
       resizeTimer = setTimeout(cacheElements, 250);
@@ -64,15 +64,24 @@ export function ScrollEffectsWrapper() {
     const raf = () => {
       if (!isActive) return;
       
-      mouseX += (targetX - mouseX) * 0.05;
-      mouseY += (targetY - mouseY) * 0.05;
+      const diffX = targetX - mouseX;
+      const diffY = targetY - mouseY;
+      
+      // If the mouse hasn't moved enough, just request next frame and skip DOM updates to save CPU
+      if (Math.abs(diffX) < 0.001 && Math.abs(diffY) < 0.001) {
+        requestAnimationFrame(raf);
+        return;
+      }
+      
+      mouseX += diffX * 0.05;
+      mouseY += diffY * 0.05;
 
       const { photo, words, particles } = elementsRef.current;
       
       // Apply variables directly to elements to prevent full page style recalculation
       if (photo) {
-        photo.style.setProperty('--mouse-x-photo', `${mouseX * -15}px`);
-        photo.style.setProperty('--mouse-y-photo', `${mouseY * -15}px`);
+        (photo as HTMLElement).style.setProperty('--mouse-x-photo', `${mouseX * -15}px`);
+        (photo as HTMLElement).style.setProperty('--mouse-y-photo', `${mouseY * -15}px`);
       }
 
       if (words) {
@@ -105,7 +114,7 @@ export function ScrollEffectsWrapper() {
     const { photo, words, particles, cards } = elementsRef.current;
     
     // Inject scroll offsets to specific elements
-    if (photo) photo.style.setProperty('--scroll-y-photo', `${latest * 0.15}px`);
+    if (photo) (photo as HTMLElement).style.setProperty('--scroll-y-photo', `${latest * 0.15}px`);
     
     if (words) {
       words.forEach(w => (w as HTMLElement).style.setProperty('--scroll-y-words', `${latest * -0.1}px`));
@@ -119,8 +128,9 @@ export function ScrollEffectsWrapper() {
     const windowHeight = typeof window !== 'undefined' ? window.innerHeight : 1000;
     const windowCenter = windowHeight / 2;
     
-    for (let i = 0; i < cards.length; i++) {
-      const { el, top, height } = cards[i];
+    for (const card of cards) {
+      if (!card) continue;
+      const { el, top, height } = card;
       // Calculate where the card is relative to the viewport RIGHT NOW
       const currentTopRelativeToViewport = top - latest;
       

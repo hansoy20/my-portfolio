@@ -53,8 +53,8 @@ export function Navbar() {
         aria-label="Toggle Menu"
         style={{
           position: 'fixed',
-          top: '32px',
-          left: '32px',
+          top: 'clamp(16px, 4vw, 32px)',
+          left: 'clamp(16px, 4vw, 32px)',
           zIndex: 999999,
           width: '48px',
           height: '48px',
@@ -114,7 +114,7 @@ export function Navbar() {
                   exit={{ opacity: 0, y: 20 }}
                   transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: i * 0.1 + 0.1 }}
                   style={{
-                    fontSize: 'clamp(32px, 5vw, 60px)',
+                    fontSize: 'clamp(28px, 6vw, 60px)',
                     fontWeight: 'bold',
                     color: 'white',
                     textDecoration: 'none',

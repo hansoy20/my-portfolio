@@ -1,8 +1,8 @@
 /* GLOBAL RESPONSIVE FIXES */
 html, body {
-  /* Prevent horizontal scrolling */
+  /* Prevent horizontal scrolling safely */
   overflow-x: hidden !important;
-  max-width: 100vw !important;
+  max-width: 100% !important;
 }
 
 /* Make all images responsive */
@@ -13,7 +13,8 @@ img {
 
 /* Override any hardcoded fixed pixel widths on layout containers */
 .elementor-section, .elementor-container, .elementor-column, .elementor-widget-wrap {
-  max-width: 100vw !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
 /* Safe padding reduction for main Elementor sections to prevent massive gaps */

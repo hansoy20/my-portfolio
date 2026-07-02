@@ -11,7 +11,7 @@ export function FramerDOMController() {
       // 1. Photo: Fade in & scale from 0.95 to 1 using CSS variable to avoid conflict
       animate(
         '.hero-image',
-        { opacity: [0, 1], '--framer-scale': [0.95, 1] } as any,
+        { opacity: [0, 1], '--framer-scale': [0.95, 1] },
         { duration: 1.2, ease: smoothEase }
       );
 
@@ -63,7 +63,7 @@ export function FramerDOMController() {
         () => {
           animate(
             '.arrow-card',
-            { '--framer-y': ['40px', '0px'], opacity: [0, 1] } as any,
+            { '--framer-y': ['40px', '0px'], opacity: [0, 1] },
             { duration: 0.8, ease: smoothEase, delay: stagger(0.12) }
           );
           stopCardsObserver();
