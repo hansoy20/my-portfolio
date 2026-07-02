@@ -49,4 +49,77 @@ button, a, .elementor-button {
     padding-top: 24px !important;
     padding-bottom: 24px !important;
   }
+
+  /* Fix for Project Cards on mobile */
+  .arrow-card.e-flex {
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 !important;
+    gap: 0 !important;
+    justify-content: flex-start !important;
+  }
+  
+  .arrow-card > .e-con.e-child {
+    width: 100% !important;
+    min-width: 100% !important;
+    flex: 0 0 auto !important;
+    height: auto !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Reset the image container specifically to avoid huge gaps or cropping */
+  .arrow-card > .e-con.e-child:first-child {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 24px !important;
+  }
+
+  .arrow-card .elementor-widget-image,
+  .arrow-card .elementor-widget-image .elementor-widget-container {
+    width: 100% !important;
+    height: auto !important;
+    min-height: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+  }
+  
+  .arrow-card img {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: 180px !important;
+    object-fit: contain !important;
+    display: block !important;
+    position: static !important;
+    transform: none !important;
+  }
 }
+
+/* Fix missing arrow icons in project cards globally */
+.arrow-card .elementor-icon {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.arrow-card .elementor-icon::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 32px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='7' y1='17' x2='17' y2='7'%3E%3C/line%3E%3Cpolyline points='7 7 17 7 17 17'%3E%3C/polyline%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.arrow-card:hover .elementor-icon::before {
+  transform: translate(4px, -4px);
+}
+

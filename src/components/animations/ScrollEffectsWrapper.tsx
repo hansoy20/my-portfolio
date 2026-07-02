@@ -64,17 +64,8 @@ export function ScrollEffectsWrapper() {
     const raf = () => {
       if (!isActive) return;
       
-      const diffX = targetX - mouseX;
-      const diffY = targetY - mouseY;
-      
-      // If the mouse hasn't moved enough, just request next frame and skip DOM updates to save CPU
-      if (Math.abs(diffX) < 0.001 && Math.abs(diffY) < 0.001) {
-        requestAnimationFrame(raf);
-        return;
-      }
-      
-      mouseX += diffX * 0.05;
-      mouseY += diffY * 0.05;
+      mouseX += (targetX - mouseX) * 0.05;
+      mouseY += (targetY - mouseY) * 0.05;
 
       const { photo, words, particles } = elementsRef.current;
       

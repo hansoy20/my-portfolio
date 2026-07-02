@@ -15,7 +15,7 @@ export default function PortfolioPage() {
     replace: (domNode) => {
       if (domNode instanceof Element && domNode.attribs?.['data-id'] === '01dbacf') {
         return (
-          <div id="stack" style={{ width: '100vw', position: 'relative', left: '50%', transform: 'translateX(-50%)' }}>
+          <div id="stack" style={{ width: '100%', position: 'relative' }}>
             <TechStack />
           </div>
         );
